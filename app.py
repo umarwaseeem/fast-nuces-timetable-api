@@ -164,7 +164,7 @@ def sort_timetable(timetable: str) -> pd.DataFrame():
 
 
 def generate_timetable(subjects: list) -> pd.DataFrame():
-    fhandle = open('unsorted_timetable.txt', 'w')
+    fhandle = open('/tmp/unsorted_timetable.txt', 'w')
     for subject in subjects:
         find_details(subject, fhandle)
         fhandle.write('\n')
@@ -172,7 +172,7 @@ def generate_timetable(subjects: list) -> pd.DataFrame():
     
     timetable = ''
 
-    fhandle = open('unsorted_timetable.txt', 'r')
+    fhandle = open('/tmp/unsorted_timetable.txt', 'r')
 
     for line in fhandle:
         timetable += line
