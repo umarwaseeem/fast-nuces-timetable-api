@@ -10,6 +10,5 @@
             "src": "/(.*)",
             "dest": "/app.py"
         }
-    ],
-    "start": "gunicorn -b :$PORT app:app"
+    ]
 }
