@@ -11,10 +11,5 @@
             "dest": "/app.py"
         }
     ],
-    "functions": {
-        "app.py": {
-            "runtime": "python3.7"
-        }
-    },
     "start": "gunicorn -b :$PORT app:app"
 }
