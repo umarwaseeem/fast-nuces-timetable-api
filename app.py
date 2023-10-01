@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template,  request, jsonify
 import pandas as pd
 # import numpy as np
 
@@ -229,6 +229,10 @@ def get_time_table():
 
     # Return the JSON response
     return jsonify(timetable_json)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run()
