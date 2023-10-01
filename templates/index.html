@@ -45,12 +45,19 @@
     </pre>
     <h4>Example Response</h4>
     <pre>
-"[
-    {\"Room\":\" B-229\",\"Time\":\"08:30-09:50\",\"Day\":\" Monday\"},
-    {\"Room\":\" B-129\",\"Time\":\"10:00-11:20\",\"Day\":\" Tuesday\"},
-    {\"Room\":\" B-229\",\"Time\":\"08:30-09:50\",\"Day\":\" Wednesday\"},
-    {\"Room\":\" C-404\",\"Time\":\"10:00-11:20\",\"Day\":\" Thursday\"}
-]"
+        "[
+        {\"Room\":\" B-229\",\"Time\":\"08:30-09:50\",\"Day\":\" Monday\"},
+        {\"Room\":\" B-129\",\"Time\":\"10:00-11:20\",\"Day\":\" Tuesday\"},
+        {\"Room\":\" B-229\",\"Time\":\"08:30-09:50\",\"Day\":\" Wednesday\"},
+        {\"Room\":\" C-404\",\"Time\":\"10:00-11:20\",\"Day\":\" Thursday\"}
+        ]"
+    </pre>
+    <h4>Example Curl (Curl is a command used to make http / https requests)</h4>
+    <pre>
+curl -X POST \
+-H "Content-Type: application/json" \
+-d '{"subjects": ["OS (CS-G)", "DIP (AI-J)"]}' \
+https://universe-timetable.vercel.app/time-table
     </pre>
 </body>
 </html>
