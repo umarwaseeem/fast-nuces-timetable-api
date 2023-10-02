@@ -150,13 +150,13 @@ def sort_timetable(timetable: str) -> pd.DataFrame():
     day = []
     for subject in timetable:
         details = subject.split('\n')
-        subject_title.append(details[0].split(':')[1])
+        subject_title.append(details[0].split(' : ')[1])
         room.append(details[1].split(' : ')[1])
         time.append(details[2].split(' : ')[1])
         day.append(details[3].split(' : ')[1])
 
-    df = pd.DataFrame(list(zip(room, time, day)), index = subject_title)
-    df.columns = ['Room', 'Time', 'Day']
+    df = pd.DataFrame(list(zip(subject_title, room, time, day)), index = subject_title)
+    df.columns = [ "Subject", 'Room', 'Time', 'Day']
     df['Day Number'] = df['Day'].apply(map_days)
     df = df.sort_values(by='Day Number')
     df.drop('Day Number', axis=1, inplace=True)
@@ -233,11 +233,6 @@ def all_subjects():
     return jsonify(subjects)
 
 
-    
-   
-
-    # subjects.sort()
-    return jsonify(subjects)
 
 
 
