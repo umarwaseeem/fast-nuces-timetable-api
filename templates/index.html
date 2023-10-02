@@ -31,6 +31,34 @@
 <body>
     <h1>Fast Time-Table API</h1>
     <p>made By : <a href="https://github.com/HassanRasoo98">Hasaan Rasool</a> and <a href="https://github.com/Umar-Waseem">Umar Waseem</a></p>
+    
+    <h2>All Subjects</h2>
+    <h4>Example Response - /all-subjects (returns a list of all subjects)</h4>
+    <pre>
+        [
+            "PF (J)",
+            "Comm & Pres Skills (CS-A)",
+            "Data Structures (21-A)",
+            "AI Lab (CS-C)",
+            "Comm & Pres Skills (CS-J)",
+            "Islamic Studies (SE-G)",
+            "RM (DS)",
+            "OOP (AI-A)",
+            "Fund of Big Data (DS-U)",
+            "Search based SE",
+            "COAL (AI-J)",
+            "AI Lab (CS-D)",
+            "OOP Lab (DS-C)",
+            "PF Lab (A)",
+            "Stat & Maths (DS)",
+        ]
+    </pre>
+    <h4>Example Curl (Curl is a command used to make http / https requests)</h4>
+    <pre>
+        curl https://universe-timetable.vercel.app/all-subjects
+    </pre>
+    <h2>Time Table For Subjects</h2>
+    <br>
     <h4>Example of Data to be Sent to <strong>/time-table</strong>  Endpoint:</h4>
     <br>
     <pre>
@@ -52,7 +80,7 @@
         {\"Room\":\" C-404\",\"Time\":\"10:00-11:20\",\"Day\":\" Thursday\"}
         ]"
     </pre>
-    <h4>Example Curl (Curl is a command used to make http / https requests)</h4>
+    <h4>Example Curl</h4>
     <pre>
 curl -X POST \
 -H "Content-Type: application/json" \

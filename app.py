@@ -197,6 +197,48 @@ def generate_timetable(subjects: list) -> pd.DataFrame():
 
 
 
+@app.route("/all-subjects", methods=["GET"])
+def all_subjects():
+    TimeTable = pd.ExcelFile("TimeTable, FSC, Spring-2023.xlsx")
+    subjects = []
+
+    # Regular expression pattern to match time values like "1:30-2:50"
+    time_pattern = r'\d+:\d+-\d+:\d+'
+
+    for day in day_names:
+        temp = pd.read_excel(TimeTable, day)
+        # Remove top rows
+        temp = drop_top_rows(temp)
+
+        # Remove the first column
+        temp = temp.iloc[:, 1:]
+
+        # Remove time values in the format "1:30-2:50" using regular expressions
+        temp = temp.applymap(lambda cell: re.sub(time_pattern, '', str(cell)))
+
+        # Flatten and extend subjects
+        subjects.extend(temp.values.flatten())
+
+    # Remove empty strings and strip whitespace
+    subjects = [subject.strip() for subject in subjects if subject.strip()]
+
+    # Remove duplicates and sort
+    subjects = list(set(subjects))
+
+    # remove nan values
+    subjects = [subject for subject in subjects if str(subject) != 'nan']
+    # subjects.sort()
+
+    return jsonify(subjects)
+
+
+    
+   
+
+    # subjects.sort()
+    return jsonify(subjects)
+
+
 
 
 # Define the /time-table route to return the timetable
