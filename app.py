@@ -161,6 +161,13 @@ def sort_timetable(timetable: str) -> pd.DataFrame():
     df = df.sort_values(by='Day Number')
     df.drop('Day Number', axis=1, inplace=True)
 
+    # split time into start and end time
+    df['Start-Time'] = df['Time'].apply(lambda x: x.split('-')[0])
+    df['End-Time'] = df['Time'].apply(lambda x: x.split('-')[1])
+
+    # drop the time column
+    df.drop('Time', axis=1, inplace=True)
+
     return df
 
 
