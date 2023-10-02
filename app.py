@@ -150,9 +150,9 @@ def sort_timetable(timetable: str) -> pd.DataFrame():
     for subject in timetable:
         details = subject.split('\n')
         subject_title.append(details[0].split(':')[1])
-        room.append(details[1].split(':')[1])
+        room.append(details[1].split(' : ')[1])
         time.append(details[2].split(' : ')[1])
-        day.append(details[3].split(':')[1])
+        day.append(details[3].split(' : ')[1])
 
     df = pd.DataFrame(list(zip(room, time, day)), index = subject_title)
     df.columns = ['Room', 'Time', 'Day']
@@ -222,13 +222,15 @@ def get_time_table():
     print()
     df = generate_timetable(subjects)
 
+    print(df)
+
     # Convert the timetable DataFrame to JSON format
     timetable_json = df.to_json(orient="records")
 
     print(timetable_json)
 
     # Return the JSON response
-    return jsonify(timetable_json)
+    return timetable_json
 
 @app.route('/')
 def index():
