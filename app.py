@@ -1,6 +1,6 @@
 from flask import Flask, render_template,  request, jsonify
 import pandas as pd
-import re
+import re as regExp
 # import numpy as np
 
 app = Flask(__name__)
@@ -215,7 +215,7 @@ def all_subjects():
         temp = temp.iloc[:, 1:]
 
         # Remove time values in the format "1:30-2:50" using regular expressions
-        temp = temp.applymap(lambda cell: re.sub(time_pattern, '', str(cell)))
+        temp = temp.applymap(lambda cell: regExp.sub(time_pattern, '', str(cell)))
 
         # Flatten and extend subjects
         subjects.extend(temp.values.flatten())
