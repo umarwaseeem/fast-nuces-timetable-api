@@ -13,7 +13,7 @@ def drop_top_rows(df):
     try:
         df = df[['Room', '08:30-09:50','10:00-11:20','11:30-12:50','01:00-02:20','02:30-03:50','03:55-05:15','05:20-06:40 ', '06:45-08:05']]
     except: # friday exceptional case
-        df = df[['Room', '08:30-09:50','10:00-11:20','11:30-12:50','01:00-02:20','02:00-03:20','03:30-04:50','05:20-06:40 ','06:45-08:05']]
+        df = df[['Room', '08:30-09:50','10:00-11:20','11:30-12:50','02:00-03:20','03:30-04:50','05:20-06:40 ','06:45-08:05']]
     df.drop([3], axis=0, inplace=True)
     return df
 
@@ -35,7 +35,7 @@ def separate_labs_and_classes(day, classes, labs):
     lab_df.drop([ind], axis=0, inplace=True)
     labs.append(lab_df)
 
-TimeTable = pd.ExcelFile("TimeTable, FSC, Spring-2023.xlsx")
+TimeTable = pd.ExcelFile("TimeTable, FSC, Fall-2023.xlsx")
 
 day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 week=[] # list to store dataframe of timetables of all days of the week
@@ -207,7 +207,7 @@ def generate_timetable(subjects: list) -> pd.DataFrame():
 
 @app.route("/all-subjects", methods=["GET"])
 def all_subjects():
-    TimeTable = pd.ExcelFile("TimeTable, FSC, Spring-2023.xlsx")
+    TimeTable = pd.ExcelFile("TimeTable, FSC, Fall-2023.xlsx")
     subjects = []
 
     # Regular expression pattern to match time values like "1:30-2:50"
