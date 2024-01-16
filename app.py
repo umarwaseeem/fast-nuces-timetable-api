@@ -1,7 +1,6 @@
 from flask import Flask, render_template,  request, jsonify
 import pandas as pd
-import re as regExp
-# import numpy as np
+import re
 
 app = Flask(__name__)
 
@@ -207,7 +206,7 @@ def generate_timetable(subjects: list) -> pd.DataFrame():
 
 @app.route("/all-subjects", methods=["GET"])
 def all_subjects():
-    TimeTable = pd.ExcelFile("TimeTable, FSC, Fall-2023.xlsx")
+    TimeTable = pd.ExcelFile("TimeTable, FSC, Spring-2024.xlsx")
     subjects = []
 
     # Regular expression pattern to match time values like "1:30-2:50"
@@ -222,7 +221,7 @@ def all_subjects():
         temp = temp.iloc[:, 1:]
 
         # Remove time values in the format "1:30-2:50" using regular expressions
-        temp = temp.applymap(lambda cell: regExp.sub(time_pattern, '', str(cell)))
+        temp = temp.applymap(lambda cell: re.sub(time_pattern, '', str(cell)))
 
         # Flatten and extend subjects
         subjects.extend(temp.values.flatten())
