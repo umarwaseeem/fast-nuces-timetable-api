@@ -1,9 +1,4 @@
-from flask import Flask, render_template,  request, jsonify
 import pandas as pd
-import re
-
-app = Flask(__name__)
-
 
 # this function will be called in a loop and unnecessary rows of all days dataframes will be dropped
 def drop_top_rows(df):
@@ -30,11 +25,11 @@ def separate_labs_and_classes(day, classes, labs):
         lab_df = lab_df[['Lab','08:30-11:15','11:25-02:10','02:25-05:10','05:20 - 08:05 (inc. 10 min. break)  ']]
     except: 
         # friday exceptional case
-        lab_df = lab_df[['Lab', '08:30-11:15', '02:15-05:00', '05:20 - 08:05 (inc. 10 min. break)  ']]
+        lab_df = lab_df[['Lab', '08:30-11:15', '02:25-05:10', '05:20 - 08:05 (inc. 10 min. break)  ']]
     lab_df.drop([ind], axis=0, inplace=True)
     labs.append(lab_df)
 
-TimeTable = pd.ExcelFile("TimeTable, FSC, Fall-2023.xlsx")
+TimeTable = pd.ExcelFile("timetable_spring_2024.xlsx")
 
 day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 week=[] # list to store dataframe of timetables of all days of the week
@@ -49,8 +44,6 @@ for day in week:
     day = drop_top_rows(day) # drop unncessary top rows
     separate_labs_and_classes(day, classes, labs) # separate lab data and class data
     # database is ready at this point
-
-
 
 def find_lab(find, subject, day_names, i, fhandle): # parameters: dataframe, subject name
     lab = find['Lab']
@@ -169,7 +162,6 @@ def sort_timetable(timetable: str) -> pd.DataFrame():
 
     return df
 
-
 def generate_timetable(subjects: list) -> pd.DataFrame():
     fhandle = open('/tmp/unsorted_timetable.txt', 'w')
     for subject in subjects:
@@ -187,98 +179,3 @@ def generate_timetable(subjects: list) -> pd.DataFrame():
     df = sort_timetable(timetable)
     
     return df
-
-# subjects = [
-#     'Art Neural Net (AI-J)',
-#     'DIP (AI-J)',
-#     'Comp Networks (AI-J)',
-#     'PDC (AI-J)',
-#     'Comp Networks Lab (AI-J)',
-#     'DB (CS-C/D)',
-#     'DB Lab (CS-G)',
-# ]
-
-# df = generate_timetable(subjects)
-# df
-
-
-
-
-@app.route("/all-subjects", methods=["GET"])
-def all_subjects():
-    TimeTable = pd.ExcelFile("TimeTable, FSC, Spring-2024.xlsx")
-    subjects = []
-
-    # Regular expression pattern to match time values like "1:30-2:50"
-    time_pattern = r'\d+:\d+-\d+:\d+'
-
-    for day in day_names:
-        temp = pd.read_excel(TimeTable, day)
-        # Remove top rows
-        temp = drop_top_rows(temp)
-
-        # Remove the first column
-        temp = temp.iloc[:, 1:]
-
-        # Remove time values in the format "1:30-2:50" using regular expressions
-        temp = temp.applymap(lambda cell: re.sub(time_pattern, '', str(cell)))
-
-        # Flatten and extend subjects
-        subjects.extend(temp.values.flatten())
-
-    # Remove empty strings and strip whitespace
-    subjects = [subject.strip() for subject in subjects if subject.strip()]
-
-    # Remove duplicates and sort
-    subjects = list(set(subjects))
-
-    # remove nan values
-    subjects = [subject for subject in subjects if str(subject) != 'nan']
-    # subjects.sort()
-
-    return jsonify(subjects)
-
-
-
-
-
-
-# Define the /time-table route to return the timetable
-@app.route("/time-table", methods=["POST"])
-def get_time_table():
-    data = request.get_json()
-    print("-----------------")
-    print("request", request)
-    print("-----------------")
-    print()
-    print("-----------------")
-    print("data", data)
-    print("-----------------")
-    print()
-    subjects = data.get("subjects", [])
-    print("-----------------")
-    print("subjects", subjects)
-    print()
-    for subject in subjects:
-        print(subject)
-    print()
-    print("-----------------")
-    print()
-    df = generate_timetable(subjects)
-
-    print(df)
-
-    # Convert the timetable DataFrame to JSON format
-    timetable_json = df.to_json(orient="records")
-
-    print(timetable_json)
-
-    # Return the JSON response
-    return timetable_json
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-if __name__ == "__main__":
-    app.run()
